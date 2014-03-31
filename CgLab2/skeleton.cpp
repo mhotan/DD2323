@@ -15,6 +15,7 @@ const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = 500;
 SDL_Surface* screen;
 int t;
+vector<Triangle> triangles;
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
@@ -26,6 +27,7 @@ int main( int argc, char* argv[] )
 {
 	screen = InitializeSDL( SCREEN_WIDTH, SCREEN_HEIGHT );
 	t = SDL_GetTicks();	// Set start value for timer.
+	LoadTestModel(triangles);
 
 	while( NoQuitMessageSDL() )
 	{
