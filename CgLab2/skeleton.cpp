@@ -21,14 +21,14 @@ struct Intersection
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES
 
-const int SCREEN_WIDTH = 500;
-const int SCREEN_HEIGHT = 500;
+const int SCREEN_WIDTH = 100;
+const int SCREEN_HEIGHT = SCREEN_WIDTH;
 SDL_Surface* screen;
 int t;
 vector<Triangle> triangles;
 
-float focalLength = 750;
-vec3 cameraPos(0, 0, -4);
+float focalLength = SCREEN_HEIGHT * 3 / 2;
+vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
@@ -79,6 +79,24 @@ void Update()
 	float dt = float(t2-t);
 	t = t2;
 	cout << "Render time: " << dt << " ms." << endl;
+
+	Uint8* keystate = SDL_GetKeyState(0);
+	if (keystate[SDLK_UP])
+	{
+		// Move camera forward
+	}
+	if (keystate[SDLK_DOWN])
+	{
+		// Move camera backward
+	}
+	if (keystate[SDLK_LEFT])
+	{
+		// Move camera to the left
+	}
+	if (keystate[SDLK_RIGHT])
+	{
+		// Move camera to the right
+	}
 }
 
 void Draw()
