@@ -27,14 +27,32 @@ SDL_Surface* screen;
 int t;
 vector<Triangle> triangles;
 
-float focalLength = SCREEN_HEIGHT * 3 / 2;
+// Ration determines how close or how far the 
+// room appears.  The higher the ratio the farther the room appears to be away.
+float FOCAL_LENGTH_TO_SCREEN_RATIO = 3 / 2;
+float focalLength = SCREEN_HEIGHT * FOCAL_LENGTH_TO_SCREEN_RATIO;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
+
+// Translation step
+float TRANSLATION_STEP = .5; // Translation proportioned to room dimension
+// Rotation angle step. the amount the view is rotated in one step.
+float ROTATION_ANGLE = 5; // In degrees.
+
+// Rotaion matrix
+mat3 R;
+// Rotation angle step in degrees.
+float yaw;
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
 
 void Update();
 void Draw();
+
+/*
+Updates the value of the matrix based of the rotation angle..
+*/
+void UpdateRotationMatrix(float yAxisAngle, mat3 matrix);
 
 /*
 Checks to see if there is a triangle plane that intersects with the
@@ -62,6 +80,10 @@ int main( int argc, char* argv[] )
 	t = SDL_GetTicks();	// Set start value for timer.
 	LoadTestModel(triangles);
 
+	// Initialize the 
+	R = mat3(1.0f);
+	yaw = 0.0;
+
 	while( NoQuitMessageSDL() )
 	{
 		Update();
@@ -84,18 +106,24 @@ void Update()
 	if (keystate[SDLK_UP])
 	{
 		// Move camera forward
+		cameraPos.z += TRANSLATION_STEP;
 	}
 	if (keystate[SDLK_DOWN])
 	{
 		// Move camera backward
+		cameraPos.z -= TRANSLATION_STEP;
 	}
 	if (keystate[SDLK_LEFT])
 	{
 		// Move camera to the left
+		yaw -= ROTATION_ANGLE;
+		UpdateRotationMatrix(yaw, R);
 	}
 	if (keystate[SDLK_RIGHT])
 	{
 		// Move camera to the right
+		yaw += ROTATION_ANGLE;
+		UpdateRotationMatrix(yaw, R);
 	}
 }
 
@@ -169,4 +197,12 @@ bool ClosestIntersection(
 		}
 	}
 	return foundIntersection;
+}
+
+// Rotate around the y axis.
+void UpdateRotationMatrix(float yAxisAngle, mat3 matrix) {
+	matrix[0][0] = glm::cos(yAxisAngle);
+	matrix[2][0] = glm::sin(yAxisAngle);
+	matrix[0][2] = -glm::sin(yAxisAngle);
+	matrix[2][2] = glm::cos(yAxisAngle);
 }
