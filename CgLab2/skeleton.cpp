@@ -21,11 +21,13 @@ struct Intersection
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES
 
-const int SCREEN_WIDTH = 100;
+const int SCREEN_WIDTH = 250;
 const int SCREEN_HEIGHT = SCREEN_WIDTH;
 SDL_Surface* screen;
 int t;
 vector<Triangle> triangles;
+float yaw = 0;
+mat3 R;
 
 float focalLength = SCREEN_HEIGHT * 3 / 2;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
@@ -75,6 +77,7 @@ int main( int argc, char* argv[] )
 void Update()
 {
 	// Compute frame time:
+    float delta = 0.05;
 	int t2 = SDL_GetTicks();
 	float dt = float(t2-t);
 	t = t2;
@@ -84,19 +87,26 @@ void Update()
 	if (keystate[SDLK_UP])
 	{
 		// Move camera forward
+        cameraPos.z += delta*2;
 	}
 	if (keystate[SDLK_DOWN])
 	{
 		// Move camera backward
+        cameraPos.z -= delta*2;
 	}
 	if (keystate[SDLK_LEFT])
 	{
 		// Move camera to the left
+        yaw -= delta;
 	}
 	if (keystate[SDLK_RIGHT])
 	{
 		// Move camera to the right
+        yaw += delta;
 	}
+    R = mat3(glm::cos(yaw), 0, glm::sin(yaw),
+        0, 1, 0,
+        -glm::sin(yaw), 0, glm::cos(yaw));
 }
 
 void Draw()
@@ -142,9 +152,9 @@ bool ClosestIntersection(
 		
 		Triangle triangle = triangles[i];
 		// Calculate the value of x, (t, u, v)
-		vec3 v0 = triangle.v0 ;
-		vec3 v1 = triangle.v1 ;
-		vec3 v2 = triangle.v2 ;
+		vec3 v0 = triangle.v0*R ;
+		vec3 v1 = triangle.v1*R;
+		vec3 v2 = triangle.v2*R;
 		vec3 e1 = v1 - v0;
 		vec3 e2 = v2 - v0;
 		vec3 b = start - v0;
