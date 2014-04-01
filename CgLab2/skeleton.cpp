@@ -21,11 +21,13 @@ struct Intersection
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES
 
-const int SCREEN_WIDTH = 100;
+const int SCREEN_WIDTH = 250;
 const int SCREEN_HEIGHT = SCREEN_WIDTH;
 SDL_Surface* screen;
 int t;
 vector<Triangle> triangles;
+float yaw = 0;
+mat3 R;
 
 // Ration determines how close or how far the 
 // room appears.  The higher the ratio the farther the room appears to be away.
@@ -33,26 +35,11 @@ float FOCAL_LENGTH_TO_SCREEN_RATIO = 3 / 2;
 float focalLength = SCREEN_HEIGHT * FOCAL_LENGTH_TO_SCREEN_RATIO;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
 
-// Translation step
-float TRANSLATION_STEP = .5; // Translation proportioned to room dimension
-// Rotation angle step. the amount the view is rotated in one step.
-float ROTATION_ANGLE = 5; // In degrees.
-
-// Rotaion matrix
-mat3 R;
-// Rotation angle step in degrees.
-float yaw;
-
 // ----------------------------------------------------------------------------
 // FUNCTIONS
 
 void Update();
 void Draw();
-
-/*
-Updates the value of the matrix based of the rotation angle..
-*/
-void UpdateRotationMatrix(float yAxisAngle, mat3 matrix);
 
 /*
 Checks to see if there is a triangle plane that intersects with the
@@ -80,10 +67,6 @@ int main( int argc, char* argv[] )
 	t = SDL_GetTicks();	// Set start value for timer.
 	LoadTestModel(triangles);
 
-	// Initialize the 
-	R = mat3(1.0f);
-	yaw = 0.0;
-
 	while( NoQuitMessageSDL() )
 	{
 		Update();
@@ -97,6 +80,7 @@ int main( int argc, char* argv[] )
 void Update()
 {
 	// Compute frame time:
+    float delta = 0.05;
 	int t2 = SDL_GetTicks();
 	float dt = float(t2-t);
 	t = t2;
@@ -106,25 +90,26 @@ void Update()
 	if (keystate[SDLK_UP])
 	{
 		// Move camera forward
-		cameraPos.z += TRANSLATION_STEP;
+        cameraPos.z += delta*2;
 	}
 	if (keystate[SDLK_DOWN])
 	{
 		// Move camera backward
-		cameraPos.z -= TRANSLATION_STEP;
+        cameraPos.z -= delta*2;
 	}
 	if (keystate[SDLK_LEFT])
 	{
 		// Move camera to the left
-		yaw -= ROTATION_ANGLE;
-		UpdateRotationMatrix(yaw, R);
+        yaw -= delta;
 	}
 	if (keystate[SDLK_RIGHT])
 	{
 		// Move camera to the right
-		yaw += ROTATION_ANGLE;
-		UpdateRotationMatrix(yaw, R);
+        yaw += delta;
 	}
+    R = mat3(glm::cos(yaw), 0, glm::sin(yaw),
+        0, 1, 0,
+        -glm::sin(yaw), 0, glm::cos(yaw));
 }
 
 void Draw()
@@ -170,9 +155,9 @@ bool ClosestIntersection(
 		
 		Triangle triangle = triangles[i];
 		// Calculate the value of x, (t, u, v)
-		vec3 v0 = triangle.v0 ;
-		vec3 v1 = triangle.v1 ;
-		vec3 v2 = triangle.v2 ;
+		vec3 v0 = triangle.v0*R ;
+		vec3 v1 = triangle.v1*R;
+		vec3 v2 = triangle.v2*R;
 		vec3 e1 = v1 - v0;
 		vec3 e2 = v2 - v0;
 		vec3 b = start - v0;
@@ -197,12 +182,4 @@ bool ClosestIntersection(
 		}
 	}
 	return foundIntersection;
-}
-
-// Rotate around the y axis.
-void UpdateRotationMatrix(float yAxisAngle, mat3 matrix) {
-	matrix[0][0] = glm::cos(yAxisAngle);
-	matrix[2][0] = glm::sin(yAxisAngle);
-	matrix[0][2] = -glm::sin(yAxisAngle);
-	matrix[2][2] = glm::cos(yAxisAngle);
 }
