@@ -101,21 +101,45 @@ void Update()
 		// Move camera forward
         cameraPos.z += delta*2;
 	}
-	if (keystate[SDLK_DOWN])
+	else if (keystate[SDLK_DOWN])
 	{
 		// Move camera backward
         cameraPos.z -= delta*2;
 	}
-	if (keystate[SDLK_LEFT])
+	else if (keystate[SDLK_LEFT])
 	{
 		// Move camera to the left
-        lightPos.x -= delta;
+        yaw += delta;
 	}
-	if (keystate[SDLK_RIGHT])
+	else if (keystate[SDLK_RIGHT])
 	{
 		// Move camera to the right
-        lightPos.x += delta;
+        yaw -= delta;
 	}
+    else if (keystate[SDLK_w])
+    {
+        lightPos.z += delta;
+    }
+    else if (keystate[SDLK_s])
+    {
+        lightPos.z -= delta;
+    }
+    else if (keystate[SDLK_a])
+    {
+        lightPos.x -= delta;
+    }
+    else if (keystate[SDLK_d])
+    {
+        lightPos.x += delta;
+    }
+    else if (keystate[SDLK_q])
+    {
+        lightPos.y += delta;
+    }
+    else if (keystate[SDLK_e])
+    {
+        lightPos.y -= delta;
+    }
     R = mat3(glm::cos(yaw), 0, glm::sin(yaw),
         0, 1, 0,
         -glm::sin(yaw), 0, glm::cos(yaw));
