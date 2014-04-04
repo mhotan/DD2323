@@ -21,7 +21,7 @@ struct Intersection
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES
 
-const int SCREEN_WIDTH = 250;
+const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = SCREEN_WIDTH;
 SDL_Surface* screen;
 int t;
@@ -158,7 +158,8 @@ void Draw()
 			vec3 dir(x - SCREEN_WIDTH / 2, y - SCREEN_HEIGHT / 2, focalLength);
 			Intersection inter;
 			if (ClosestIntersection(cameraPos, dir, triangles, inter)) {
-				PutPixelSDL(screen, x, y, DirectLight(inter));
+                vec3 color = triangles[inter.triangleIndex].color * DirectLight(inter);
+				PutPixelSDL(screen, x, y, color);
 			}
 			else {
 				PutPixelSDL(screen, x, y, black);
