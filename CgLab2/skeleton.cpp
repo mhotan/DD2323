@@ -220,12 +220,23 @@ bool ClosestIntersection(
 
 vec3 DirectLight(const Intersection& i)
 {
-    vec3 normal = triangles[i.triangleIndex].normal;
-
     //calculate r, the vector representing the direction from the surface to 
     //the light source
     vec3 r = glm::normalize(lightPos - i.position);
+
+    //Distance between the light source and the point
     float distance = glm::distance(lightPos, i.position);
+
+    //Shadow
+    Intersection shadowIntersect;
+    shadowIntersect.distance = std::numeric_limits<float>::max();
+    if (ClosestIntersection(i.position+(0.0001f*r) , r, triangles, shadowIntersect))
+    {
+        if (distance > shadowIntersect.distance)
+            return vec3(0,0,0);
+    }
+
+    vec3 normal = triangles[i.triangleIndex].normal;
     vec3 B = lightColor / (4 * 3.1416f * distance*distance);
     float dotProduct = glm::dot(normal, r);
     if (dotProduct < 0)
