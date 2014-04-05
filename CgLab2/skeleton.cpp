@@ -28,10 +28,18 @@ int t;
 vector<Triangle> triangles;
 float yaw = 0;
 mat3 R;
+
+// Direct Light position and power
 vec3 lightPos(0, -0.5, -0.7);
-vec3 lightColor = 14.f * vec3(1, 1, 1);
-float focalLength = SCREEN_HEIGHT * 3 / 2;
+const vec3 lightColor = 14.f * vec3(1, 1, 1);
+
+// COP position and focal length.
+const float FOCAL_RATIO = 3.0f / 2.0f;
+const float focalLength = SCREEN_HEIGHT * FOCAL_RATIO;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
+
+// Indirect light power.
+const vec3 indirectLight = 0.5f*vec3(1, 1, 1);
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
@@ -158,7 +166,8 @@ void Draw()
 			vec3 dir(x - SCREEN_WIDTH / 2, y - SCREEN_HEIGHT / 2, focalLength);
 			Intersection inter;
 			if (ClosestIntersection(cameraPos, dir, triangles, inter)) {
-                vec3 color = triangles[inter.triangleIndex].color * DirectLight(inter);
+				// Weight the intensity of the color by how much light is on it.
+                vec3 color = triangles[inter.triangleIndex].color * (DirectLight(inter) + indirectLight);
 				PutPixelSDL(screen, x, y, color);
 			}
 			else {
@@ -176,6 +185,7 @@ void Draw()
 bool ClosestIntersection(
 	vec3 start,
 	vec3 dir,
+	int ignoreIndex, // Triangle index to ignore.
 	const vector<Triangle>& triangles,
 	Intersection& closestIntersection
 	) {
@@ -205,7 +215,7 @@ bool ClosestIntersection(
 		float v = x.z;
         vec3 intersectionPoint = v0 + u*e1 + v*e2;
 		// If intersection is found.
-		if (0 <= u && 0 <= v && u + v <= 1 && t >= 0) {
+		if (0 <= u && 0 <= v && u + v <= 1 && t > 0 && ignoreIndex != i) {
 			// If the distance is closer then the current minimum.;
 			if (t < closestIntersection.distance) {
 				closestIntersection.distance = t;
@@ -218,18 +228,37 @@ bool ClosestIntersection(
 	return foundIntersection;
 }
 
+bool ClosestIntersection(
+	vec3 start,
+	vec3 dir,
+	const vector<Triangle>& triangles,
+	Intersection& closestIntersection
+	) {
+	return ClosestIntersection(start, dir, -1, triangles, closestIntersection);
+}
+
 vec3 DirectLight(const Intersection& i)
 {
     vec3 normal = triangles[i.triangleIndex].normal;
 
     //calculate r, the vector representing the direction from the surface to 
     //the light source
-    vec3 r = glm::normalize(lightPos - i.position);
+	vec3 r = glm::normalize(lightPos - i.position);
     float distance = glm::distance(lightPos, i.position);
     vec3 B = lightColor / (4 * 3.1416f * distance*distance);
-    float dotProduct = glm::dot(normal, r);
+	float dotProduct = glm::dot(normal, r);
     if (dotProduct < 0)
         dotProduct = 0;
     vec3 D = B * dotProduct;
+
+	// Use r the cast ray and find the closest intersection
+	Intersection inter;
+	if (ClosestIntersection(i.position, r, i.triangleIndex, triangles, inter)) {
+		// There is a surface inbetween the point and light.
+		float newDistance = glm::distance(inter.position, i.position);
+		if (newDistance < distance) {
+			return vec3(0, 0, 0);
+		}
+	}
     return D;
 }
