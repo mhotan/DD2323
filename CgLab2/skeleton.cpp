@@ -30,6 +30,7 @@ float yaw = 0;
 mat3 R;
 vec3 lightPos(0, -0.5, -0.7);
 vec3 lightColor = 14.f * vec3(1, 1, 1);
+vec3 indirectLight = 0.5f *vec3(1, 1, 1);
 float focalLength = SCREEN_HEIGHT * 3 / 2;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
 
@@ -158,7 +159,7 @@ void Draw()
 			vec3 dir(x - SCREEN_WIDTH / 2, y - SCREEN_HEIGHT / 2, focalLength);
 			Intersection inter;
 			if (ClosestIntersection(cameraPos, dir, triangles, inter)) {
-                vec3 color = triangles[inter.triangleIndex].color * DirectLight(inter);
+                vec3 color = triangles[inter.triangleIndex].color * (DirectLight(inter) + indirectLight);
 				PutPixelSDL(screen, x, y, color);
 			}
 			else {
