@@ -15,13 +15,13 @@ struct Intersection
 {
 	vec3 position;
 	float distance;
-	int triangleIndex;
+	int triangleIndex; 
 };
 
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES
 
-const int SCREEN_WIDTH = 250;
+const int SCREEN_WIDTH = 500;
 const int SCREEN_HEIGHT = SCREEN_WIDTH;
 SDL_Surface* screen;
 int t;
@@ -29,17 +29,34 @@ vector<Triangle> triangles;
 float yaw = 0;
 mat3 R;
 
-// Ration determines how close or how far the 
-// room appears.  The higher the ratio the farther the room appears to be away.
-float FOCAL_LENGTH_TO_SCREEN_RATIO = 3 / 2;
-float focalLength = SCREEN_HEIGHT * FOCAL_LENGTH_TO_SCREEN_RATIO;
+// Direct Light position and power
+vec3 lightPos(0, -0.5, -0.7);
+const vec3 lightColor = 14.f * vec3(1, 1, 1);
+
+// COP position and focal length.
+const float FOCAL_RATIO = 3.0f / 2.0f;
+const float focalLength = SCREEN_HEIGHT * FOCAL_RATIO;
 vec3 cameraPos(0, 0, - ((2 * focalLength / SCREEN_HEIGHT) + 1));
+
+// Indirect light power.
+const vec3 indirectLight = 0.5f*vec3(1, 1, 1);
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
 
 void Update();
 void Draw();
+
+/*
+ Return the direct illumination of a point in the scene
+
+ Arguments:
+ IN
+ i: The point we want to know the direct illumination of
+ OUT
+ vec3: direct illumination
+*/
+vec3 DirectLight(const Intersection& i);
 
 /*
 Checks to see if there is a triangle plane that intersects with the
@@ -80,7 +97,7 @@ int main( int argc, char* argv[] )
 void Update()
 {
 	// Compute frame time:
-    float delta = 0.05;
+    float delta = 0.1;
 	int t2 = SDL_GetTicks();
 	float dt = float(t2-t);
 	t = t2;
@@ -92,21 +109,45 @@ void Update()
 		// Move camera forward
         cameraPos.z += delta*2;
 	}
-	if (keystate[SDLK_DOWN])
+	else if (keystate[SDLK_DOWN])
 	{
 		// Move camera backward
         cameraPos.z -= delta*2;
 	}
-	if (keystate[SDLK_LEFT])
+	else if (keystate[SDLK_LEFT])
 	{
 		// Move camera to the left
-        yaw -= delta;
-	}
-	if (keystate[SDLK_RIGHT])
-	{
-		// Move camera to the right
         yaw += delta;
 	}
+	else if (keystate[SDLK_RIGHT])
+	{
+		// Move camera to the right
+        yaw -= delta;
+	}
+    else if (keystate[SDLK_w])
+    {
+        lightPos.z += delta;
+    }
+    else if (keystate[SDLK_s])
+    {
+        lightPos.z -= delta;
+    }
+    else if (keystate[SDLK_a])
+    {
+        lightPos.x -= delta;
+    }
+    else if (keystate[SDLK_d])
+    {
+        lightPos.x += delta;
+    }
+    else if (keystate[SDLK_q])
+    {
+        lightPos.y += delta;
+    }
+    else if (keystate[SDLK_e])
+    {
+        lightPos.y -= delta;
+    }
     R = mat3(glm::cos(yaw), 0, glm::sin(yaw),
         0, 1, 0,
         -glm::sin(yaw), 0, glm::cos(yaw));
@@ -125,7 +166,9 @@ void Draw()
 			vec3 dir(x - SCREEN_WIDTH / 2, y - SCREEN_HEIGHT / 2, focalLength);
 			Intersection inter;
 			if (ClosestIntersection(cameraPos, dir, triangles, inter)) {
-				PutPixelSDL(screen, x, y, triangles[inter.triangleIndex].color);
+				// Weight the intensity of the color by how much light is on it.
+                vec3 color = triangles[inter.triangleIndex].color * (DirectLight(inter) + indirectLight);
+				PutPixelSDL(screen, x, y, color);
 			}
 			else {
 				PutPixelSDL(screen, x, y, black);
@@ -142,6 +185,7 @@ void Draw()
 bool ClosestIntersection(
 	vec3 start,
 	vec3 dir,
+	int ignoreIndex, // Triangle index to ignore.
 	const vector<Triangle>& triangles,
 	Intersection& closestIntersection
 	) {
@@ -169,17 +213,52 @@ bool ClosestIntersection(
 		float t = x.x;
 		float u = x.y;
 		float v = x.z;
-
+        vec3 intersectionPoint = v0 + u*e1 + v*e2;
 		// If intersection is found.
-		if (0 <= u && 0 <= v && u + v <= 1 && t >= 0) {
+		if (0 <= u && 0 <= v && u + v <= 1 && t > 0 && ignoreIndex != i) {
 			// If the distance is closer then the current minimum.;
 			if (t < closestIntersection.distance) {
 				closestIntersection.distance = t;
-				closestIntersection.position = x;
+				closestIntersection.position = intersectionPoint;
 				closestIntersection.triangleIndex = i;
 			}
 			foundIntersection = true;
 		}
 	}
 	return foundIntersection;
+}
+
+bool ClosestIntersection(
+	vec3 start,
+	vec3 dir,
+	const vector<Triangle>& triangles,
+	Intersection& closestIntersection
+	) {
+	return ClosestIntersection(start, dir, -1, triangles, closestIntersection);
+}
+
+vec3 DirectLight(const Intersection& i)
+{
+    vec3 normal = triangles[i.triangleIndex].normal;
+
+    //calculate r, the vector representing the direction from the surface to 
+    //the light source
+	vec3 r = glm::normalize(lightPos - i.position);
+    float distance = glm::distance(lightPos, i.position);
+    vec3 B = lightColor / (4 * 3.1416f * distance*distance);
+	float dotProduct = glm::dot(normal, r);
+    if (dotProduct < 0)
+        dotProduct = 0;
+    vec3 D = B * dotProduct;
+
+	// Use r the cast ray and find the closest intersection
+	Intersection inter;
+	if (ClosestIntersection(i.position, r, i.triangleIndex, triangles, inter)) {
+		// There is a surface inbetween the point and light.
+		float newDistance = glm::distance(inter.position, i.position);
+		if (newDistance < distance) {
+			return vec3(0, 0, 0);
+		}
+	}
+    return D;
 }
