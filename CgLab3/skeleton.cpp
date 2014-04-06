@@ -47,11 +47,11 @@ const float delta = 0.01f;
 //vec3 currentColor;
 
 // The buffer of that contains the depth information of each pixel.
-float depthBuffer[SCREEN_HEIGHT+1][SCREEN_WIDTH+1];
+float depthBuffer[SCREEN_HEIGHT + 1][SCREEN_WIDTH + 1];
 
 // Lighting variables
 vec3 lightPos(0, -0.5, -0.7);
-vec3 lightPower = 1.1f*vec3(1, 1, 1);
+vec3 lightPower = 14.f*vec3(1, 1, 1);
 vec3 indirectLightPowerPerArea = 0.5f*vec3(1, 1, 1);
 
 // Current color 
@@ -65,7 +65,7 @@ void Update();
 void Draw();
 
 /*
-Converts a point in 3D world space to the projected 2 dimension space 
+Converts a point in 3D world space to the projected 2 dimension space
 relative to the current camera position.
 
 Arguments:
@@ -107,7 +107,7 @@ void DrawPolygonEdges(const vector<Vertex>& vertices);
 
 /*
 	Extract the left and right boundaries of all the rows within the polygon.
-*/
+	*/
 void ComputePolygonRows(const vector<Pixel>& vertexPixels, vector<Pixel>& leftPixels, vector<Pixel>& rightPixels);
 
 /*
@@ -175,29 +175,29 @@ void Update()
 	if (keystate[SDLK_LEFT])
 		yaw += delta;
 
-	/*if( keystate[SDLK_RSHIFT] )
-		;
+	if (keystate[SDLK_RSHIFT])
+		cameraPos.x += delta * 2;
 
-		if( keystate[SDLK_RCTRL] )
-		;
+	if (keystate[SDLK_RCTRL])
+		cameraPos.x -= delta * 2;
 
-		if( keystate[SDLK_w] )
-		;
+	if (keystate[SDLK_w])
+		lightPos.z += delta * 2;
 
-		if( keystate[SDLK_s] )
-		;
+	if (keystate[SDLK_s])
+		lightPos.z -= delta * 2;
+	
+	if (keystate[SDLK_a])
+		lightPos.x -= delta * 2;
+	
+	if (keystate[SDLK_d])
+		lightPos.x += delta * 2;
 
-		if( keystate[SDLK_d] )
-		;
-
-		if( keystate[SDLK_a] )
-		;
-
-		if( keystate[SDLK_e] )
-		;
-
-		if( keystate[SDLK_q] )
-		;*/
+	if (keystate[SDLK_q])
+		lightPos.y += delta * 2;
+	
+	if (keystate[SDLK_e])
+		lightPos.y -= delta * 2;
 
 	R[0][0] = glm::cos(yaw);
 	R[2][0] = glm::sin(yaw);
@@ -260,7 +260,7 @@ void VertexShader(Vertex vertex, Pixel& projectedPos) {
 	vec3 B = lightPower / (4 * 3.1416f * distance*distance);
 	float dotProduct = glm::dot(vertex.normal, r);
 	if (dotProduct < 0)
-		dotProduct = 0;
+	dotProduct = 0;
 	vec3 D = B * dotProduct;
 	projectedPos.illumination = vertex.reflectance * (D + indirectLightPowerPerArea);*/
 }
