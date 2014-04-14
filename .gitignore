@@ -2,3 +2,25 @@ CgLab1/project/*
 CgLab2/project/*
 CgLab3/project/*
 *SDL.dll
+
+# =============== #
+# Unity generated #
+# =============== #
+Project/Bicycle/Temp/
+Project/Bicycle/Obj/
+Project/Bicycle/UnityGenerated/
+Project/Bicycle/Library/
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
