@@ -152,6 +152,7 @@ ModelImporter:
     100292: toe_target__R
     100294: upper_arm_L
     100296: upper_arm_R
+    100298: Empty_002
     400000: 1a_L
     400002: 1a_R
     400004: 1b_L
@@ -301,6 +302,7 @@ ModelImporter:
     400292: toe_target__R
     400294: upper_arm_L
     400296: upper_arm_R
+    400298: Empty_002
     2300000: as_2
     2300002: as_3
     2300004: as_pedal
@@ -390,6 +392,7 @@ ModelImporter:
     4300072: cs_center_rig
     7400000: Default Take
     7400002: ArmatureAction_004
+    7400004: ArmatureAction
     9500000: //RootNode
     13700000: Cube_001
     13700002: gear_belakang
@@ -411,13 +414,337 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ArmatureAction
+      takeName: ArmatureAction
+      firstFrame: -1
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/root_sepeda
+        weight: 1
+      - path: Armature/root_sepeda/as
+        weight: 1
+      - path: Armature/root_sepeda/as/Bone_001
+        weight: 1
+      - path: Armature/root_sepeda/as/Bone_001/stang_0
+        weight: 1
+      - path: Armature/root_sepeda/as/Bone_001/stang_0/Bone_003
+        weight: 1
+      - path: Armature/root_sepeda/as/Bone_001/stang_0/Bone_003/Bone_004
+        weight: 1
+      - path: Armature/root_sepeda/as/Bone_001/stang_0/Bone_003/Bone_004/roda_depan_0
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_belakang_0
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kanan
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kanan/Bone_005
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kanan/Bone_005/base_tip_kanan
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kanan/Bone_005/base_tip_kanan/pedal_kanan_0
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kiri
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kiri/Bone_006
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kiri/Bone_006/base_tip_kiri
+        weight: 1
+      - path: Armature/root_sepeda/as/gear_depan_0/base_pedal_kiri/Bone_006/base_tip_kiri/pedal_kiri_0
+        weight: 1
+      - path: Armature/root_sepeda/as/rantai_0
+        weight: 1
+      - path: Armature/root_sepeda/base_sepeda
+        weight: 1
+      - path: armature_chara_001
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/knee_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R/heel_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R/heel_R/rotation_toe_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R/heel_R/tarsal_target_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R/heel_R/tarsal_target_R/shin_target_R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kanan/foot_R/tip_toe_R/heel_R/tarsal_target_R/toe_target__R
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/knee_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L/heel_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L/heel_L/rotation_toe_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L/heel_L/tarsal_target_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L/heel_L/tarsal_target_L/shin_target_L
+        weight: 1
+      - path: armature_chara_001/base_kaki_kiri/foot_L/tip_toe_L/heel_L/tarsal_target_L/toe_target__L
+        weight: 1
+      - path: armature_chara_001/base_karakter
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/ctrl_hand_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/ctrl_hand_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone/thigh_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone/thigh_R/shin_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone/thigh_R/shin_R/tarsal_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone/thigh_R/shin_R/tarsal_R/toe_002
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone_030
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone_030/thigh_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone_030/thigh_L/shin_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone_030/thigh_L/shin_L/tarsal_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/hip/Bone_030/thigh_L/shin_L/tarsal_L/toe
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/Bone_002
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/Bone_002/neck
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/Bone_002/neck/head
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/ctrl_arm_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_009
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_009/5a_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_009/5a_L/5b_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_013
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_013/4a_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_013/4a_L/4b_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_013/4a_L/4b_L/4c_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_014
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_014/3a_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_014/3a_L/3b_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_014/3a_L/3b_L/3c_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_015
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_015/2a_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_015/2a_L/2b_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_015/2a_L/2b_L/2c_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_016
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_016/1a_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_016/1a_L/1b_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_L/upper_arm_L/forearm_L/hand_L/Bone_012/Bone_016/1a_L/1b_L/1c_L
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/ctrl_arm_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_2
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_2/5a_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_2/5a_R/5b_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_5
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_5/4a_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_5/4a_R/4b_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_5/4a_R/4b_R/4c_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_6
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_6/3a_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_6/3a_R/3b_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_6/3a_R/3b_R/3c_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_007
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_007/1a_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_007/1a_R/1b_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_007/1a_R/1b_R/1c_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_7
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_7/2a_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_7/2a_R/2b_R
+        weight: 1
+      - path: armature_chara_001/base_karakter/root_center/spin_001/spin/rib/sholders_R/upper_arm_R/forearm_R/hand_R/Bone_4/Bone_7/2a_R/2b_R/2c_R
+        weight: 1
+      - path: cs_bone_stang
+        weight: 1
+      - path: cs_center_rig
+        weight: 1
+      - path: cs_foot_L
+        weight: 1
+      - path: cs_foot_R
+        weight: 1
+      - path: cs_root
+        weight: 1
+      - path: cs_root_center_001
+        weight: 1
+      - path: cs_stang
+        weight: 1
+      - path: Cube_001
+        weight: 1
+      - path: gear_belakang
+        weight: 1
+      - path: gear_depan
+        weight: 1
+      - path: gear_depan/as_pedal
+        weight: 1
+      - path: pedal_kanan
+        weight: 1
+      - path: pedal_kiri
+        weight: 1
+      - path: Plane
+        weight: 1
+      - path: rangka_belakang
+        weight: 1
+      - path: rangka_belakang/Bolt
+        weight: 1
+      - path: rangka_belakang/Bolt_001
+        weight: 1
+      - path: rangka_belakang/Nut
+        weight: 1
+      - path: rangka_belakang/Nut_001
+        weight: 1
+      - path: rangka_depan
+        weight: 1
+      - path: rangka_depan/BezierCircle
+        weight: 1
+      - path: rangka_depan/Circle
+        weight: 1
+      - path: rangka_depan/Circle/Cylinder_002
+        weight: 1
+      - path: rangka_depan/Circle/Cylinder_003
+        weight: 1
+      - path: rangka_depan/Empty
+        weight: 1
+      - path: rantai
+        weight: 1
+      - path: roda_belakang
+        weight: 1
+      - path: roda_belakang/as_2
+        weight: 1
+      - path: roda_belakang/Cylinder_006
+        weight: 1
+      - path: roda_depan
+        weight: 1
+      - path: roda_depan/as_3
+        weight: 1
+      - path: roda_depan/Cylinder_005
+        weight: 1
+      - path: Sphere
+        weight: 1
+      - path: stang
+        weight: 1
+      - path: stang/Bolt_002
+        weight: 1
+      - path: stang/Bolt_003
+        weight: 1
+      - path: stang/Nut_002
+        weight: 1
+      - path: stang/Nut_003
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
