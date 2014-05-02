@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NavBikeRight : MonoBehaviour {
+public class NavBikeLeft : MonoBehaviour {
 
 	Transform target;
 	NavMeshAgent agent;
 
 	// Use this for initialization
 	void Start () {
-		target = GameObject.Find("TargetLeft").transform;
+		target = GameObject.Find("TargetRight").transform;
 		agent = GetComponent<NavMeshAgent>();
 	}
 	
@@ -16,10 +16,12 @@ public class NavBikeRight : MonoBehaviour {
 	void Update () {
 		agent.SetDestination(target.position);
 
+
 	}
 
 	void FixedUpdate(){
 		if (Vector3.Distance(target.position, gameObject.transform.position) < 10)
 			Destroy(gameObject.gameObject);
+
 	}
 }

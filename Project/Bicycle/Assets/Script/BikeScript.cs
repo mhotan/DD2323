@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 
 public class BikeScript : MonoBehaviour {
-	
+
+	Vector3 oldPos;
+	float speed;
 
 	void OnDestroy(){
 		UnRegister(this);
@@ -13,6 +15,9 @@ public class BikeScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Register(this);
+
+		oldPos = transform.position;
+		speed = 0;
 	}
 	
 
@@ -22,6 +27,19 @@ public class BikeScript : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
+
+		var newPos = transform.position;
+		var distance = Vector3.Distance(oldPos, newPos);
+		
+		//each road is 10 bikes long, bike average lenght is ~180 cm
+		//a road is then ~18m
+		//the road is 90 unity unit
+		
+		var realWorldDist = (distance*18)/90.0f;
+
+		speed = realWorldDist / Time.fixedDeltaTime;
+
+		oldPos = newPos;
 
 	}
 
@@ -40,5 +58,14 @@ public class BikeScript : MonoBehaviour {
 		if(bikes.Contains(bike))
 			bikes.Remove(bike);
 	}
+
+	public static float getAverageSpeed(){
+
+		float sum = 0;
+		foreach(var b in bikes){
+			sum += b.speed;
+		}
 	
+		return sum/bikes.Count;
+	}
 }
