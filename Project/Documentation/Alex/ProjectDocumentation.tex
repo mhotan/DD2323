@@ -32,8 +32,9 @@
 \usepackage{listings} % Required for insertion of code
 \usepackage{courier} % Required for the courier font
 \usepackage{lmodern}
-\usepackage[3D]{movie15}
+\usepackage{media9}
 \usepackage{hyperref}
+\usepackage{wrapfig}
 
 \usepackage[backend=bibtex]{biblatex}
 \addbibresource{reference.bib}
@@ -161,18 +162,29 @@ Alexandre \textsc{St-Onge}\\
 		\end{figure}
 		
 	\subsection{Rendering the cyclist}
+		Next step in our project was to find a 3d model for the bike and the cyclist. We used a 3d model from \url{www.blendswap.com} \parencite{Bicycle:Blender}, as 
+		seen in figure~\ref{fig:bike_model}. The model already had a basic animation so it was perfect for our need. Since it 
+		was a blender file, using it in Unity was not very simple. First, the animation needed to be adapted for our need. I had to change the 
+		animation slightly to make it more "loopable" in Unity. Also, the initial animation had the model moving forward, causing it to "teleport" 
+		back to its initial position at every loop, I then changed it so the animation now plays in-place. Having in-place animation is needed 
+		since we wanted to use Unity to move the bike ourselves. Once everything looked great in blender, the model was loaded into our Unity 
+		project. The bike was then scaled and rotated accordingly and was saved into what Unity call a "prefab". Having the model as a prefab allow 
+		us to easily instantiate the model during runtime.		
+		
 		\begin{figure}[h]
-			\includemovie[
-				poster,
-				toolbar, %same as `controls'
+			\includemedia[
 				label=bike2.u3d,
-				text={\includegraphics[width=0.8\textwidth]{BikeModel}},
-				3Daac=60.000000, 3Droll=90.000000 , 3Dc2c=85.835000 60.632999 45.966000, 3Droo=42.717735, 3Dcoo=1.834687 3.523406 -1.965973,
-				3Dlights=CAD,
-				]{0.8\linewidth}{0.8\linewidth}{res/bike2.u3d}
-			\caption{Bike 3d model found on \url{blenderswap.com}}
+				3Daac=60.000000, 
+				3Droll=90.000000 , 
+				3Dc2c=85.835000 60.632999 45.966000, 
+				3Droo=42.717735, 3Dcoo=1.834687 3.523406 -1.965973
+				]{\includegraphics[width=0.8\textwidth]{BikeModel}}{res/bike2.u3d}
+			\caption{Bike 3d model found on \url{blendswap.com}}
 			\label{fig:bike_model}
 		\end{figure}
+		
+	\subsection{Generating Traffic}
+		
 
 
 \printbibliography
