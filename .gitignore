@@ -10,8 +10,8 @@ Project/Bicycle/Temp/
 Project/Bicycle/Obj/
 Project/Bicycle/UnityGenerated/
 Project/Bicycle/Library/
-Project/Bicycle/Build_Data/
-*.meta
+Project/Bicycle/build_Data/
+
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
