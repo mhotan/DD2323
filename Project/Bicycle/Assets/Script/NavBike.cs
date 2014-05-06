@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NavBikeLeft : MonoBehaviour {
+public class NavBike : MonoBehaviour {
 
 	public Transform target;
 	NavMeshAgent agent;
