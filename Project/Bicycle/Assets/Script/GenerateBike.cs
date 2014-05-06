@@ -11,12 +11,12 @@ public class GenerateBike : MonoBehaviour {
 
 	private float nextSpawnR = 1.0f;
 	private float nextSpawnL = 1.0f;
-	private float densitySlider = 5.0f;
+	private float densitySlider = 7.0f;
 	private float speedSlider = 20.0f;
 	private string flowLabel = "";
 	private string speedLabel = "";
 
-	private readonly float MAX_SPAWN_TIME = 6.0f;
+	private readonly float MAX_SPAWN_TIME = 15.0f;
 	private readonly float MIN_SPAW_TIME = 1.0f;
 
 	private readonly float MAX_SPEED = 50.0f;
@@ -60,7 +60,7 @@ public class GenerateBike : MonoBehaviour {
 		Bike.GetComponent<NavBike>().target = TargetLeft;
 		Vector3 pos = SpawnRight.position;
 		pos.z -= (speed/MAX_SPEED) * 7;
-		Instantiate (Bike, pos, Bike.rotation);
+		Instantiate (Bike, pos, Bike.rotation * Quaternion.Euler(0.0f, 180.0f, 0.0f));
 	}
 
 	/**
@@ -97,13 +97,13 @@ public class GenerateBike : MonoBehaviour {
 		if(Time.time >= nextSpawnR)
 		{
 			CreateBikeRightLane();
-			nextSpawnR  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider);
+			nextSpawnR  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider+2.0f);
 		}
 
 		if(Time.time >= nextSpawnL)
 		{
 			CreateBikeLeftLane();
-			nextSpawnL  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider);
+			nextSpawnL  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider+2.0f);
 		}
 
 
@@ -122,12 +122,16 @@ public class GenerateBike : MonoBehaviour {
 		//update the speedLabel in the same time
 		speedLabel = u.ToString("0.00");
 
-		//not sure about the unit;
+		//u is the average speed => distance per second
+		//k is the number of bikes per unit of distance
+		//this give us the flow => bike per second
 		var flow = u*k;
 
+		//bike per minutes
+		flow *= 60;
 
 		//density bike/second
-		flowLabel = flow.ToString("0.00") + " bikes/sec";
+		flowLabel = flow.ToString("0.00") + " bikes/min";
 
 	}
 }

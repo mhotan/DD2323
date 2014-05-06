@@ -35,6 +35,8 @@
 \usepackage{media9}
 \usepackage{hyperref}
 \usepackage{wrapfig}
+\usepackage{listing}
+\usepackage{xcolor}
 
 \usepackage[backend=bibtex]{biblatex}
 \addbibresource{reference.bib}
@@ -69,7 +71,6 @@
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
 
-
 %----------------------------------------------------------------------------------------
 % DOCUMENT STRUCTURE COMMANDS
 % Skip this unless you know what you're doing
@@ -87,10 +88,11 @@
 \nobreak\extramarks{#1}{}\nobreak
 }
 
-
+\lstdefinestyle{sharpc}{language=[Sharp]C, frame=lr, rulecolor=\color{blue!80!black}}
 \begin{document}
 
 
+\lstset{style=sharpc}
 %----------------------------------------------------------------------------------------
 % TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -169,8 +171,7 @@ Alexandre \textsc{St-Onge}\\
 		back to its initial position at every loop, I then changed it so the animation now plays in-place. Having in-place animation is needed 
 		since we wanted to use Unity to move the bike ourselves. Once everything looked great in blender, the model was loaded into our Unity 
 		project. The bike was then scaled and rotated accordingly and was saved into what Unity call a "prefab". Having the model as a prefab allow 
-		us to easily instantiate the model during runtime.		
-		
+		us to easily instantiate the model during runtime. 
 		\begin{figure}[h]
 			\includemedia[
 				label=bike2.u3d,
@@ -184,7 +185,47 @@ Alexandre \textsc{St-Onge}\\
 		\end{figure}
 		
 	\subsection{Generating Traffic}
+		The final step was to generate traffic. There is multiple way to do this. The first method we try was simply to add a rigidbody onto the bike and 
+		add a constant force in the direction we want with a script. Since the animation is automatically playing and looping, this is a simple and easy way 
+		to have a bike rolling from one point to the other in a straight line. As the density of bike goes up, the chance of collision is much higher too and 
+		since we have not implemented any path-finding the simulation quickly becomes a mess. Luckily, Unity provides us with a built-in pathfinding solution 
+		with NavMeshAgent. First I had to define the navigable area in the scene with a NavMesh. We can do this in the navigation window in Unity by disabling 
+		navigation for the terrain and enabling it for our set of road. Next, we need a target and a spawn point for our bike. We can create these with simple 
+		empty GameObject placed at the appropriate position. We can then add a NavMeshAgent on our bike prefab. We now have to setup the agent with a script.
+		This is done in NavBike.cs in the Update() method with a simple line of code: 
 		
+		\begin{lstlisting}
+		    agent.SetDestination(target.position);
+		\end{lstlisting}
+		
+		Once the destination is set, the agent will move the object toward the target while avoiding any obstacles (i.e.: other bikes)  in the way. Now that we 
+		have a simple way of moving bike from one side to the other we can work on making the traffic nicer. This is done in the GenerateBike.cs script. I modeled 
+		the traffic according to a simple equation where the flow is equal \textbf{u*k} where \textbf{k} is the number of vehicles per unit of distance and \textbf{u} 
+		is the average speed of the vehicles. To be able to observe how these two variables affect the flow, I use two sliders: one for the density and one for the speed. 
+		If we want more bikes per distance we need to spawn more bikes, this is done by sliding the density slider to the right. The slider affect the intervals between each 
+		spawn. The Random.Range function is used to make the spawn intervals look more natural. The next slider affect the bike's speed. Before being instantiated, each bike 
+		is assign a speed randomly chosen in an interval around the slider's value. This allow us to choose the average speed with the slider, while still having faster and slower 
+		bike. The ComputeFlow() method is there to quantify the traffic flow so we can show it on screen. The flow is calculated using the equation presented earlier.
+		
+		\begin{figure}[h]
+			\includegraphics[width=\textwidth]{AppWithGUI}
+			\caption{Screenshot of the application running with the GUI in the top left corner}
+			\label{fig:app_gui}
+		\end{figure}
+		
+	\subsection{Conclusion}
+		For this project I had the responsibility of generating bike traffic at runtime in a realistic manner. While my partner is working on finding realisic way of rendering 
+		the scene with shader, I was in charge of finding a realistic traffic flow. While there is a lot of research done on the subject of traffic flow for computer generated 
+		scene, a lot of them were too much complex for my level of understanding and I found that they didn't really apply to our scenario. Indeed, bike traffic is very 
+		different from car traffic. Car traffic is organized, dense and follow a numbers of well defined rules. On the other hand, bike traffic is a lot more sparse and organic. 
+		I actually spend some times in parks observing bike traffic for this project and observe a low traffic flow at around 8 or 10 bikes per minutes. The speed variation 
+		between bikes is also considerable, which is why I used a random number generator to assign speed over an interval instead of using the same speed for everyone. 
+		Working on this project allowed me to learn about how to create scene with a framework like Unity. It can be difficult to put all these 3d models together, you have 
+		to think about scale, positions and rotation, and if you want to generate object by script you need to understand these concept even more. By choosing to use the 
+		navigation framework provided by Unity, my goal was to make sometime reusable and I'm confident that my work could be easily in any scene where you would want 
+		to add bike traffic between two points.
+		
+\section{Perception Studies}
 
 
 \printbibliography
