@@ -156,7 +156,7 @@
 				// Texture Maps.
 				float4 tex = tex2D(_MainTex, i.tex.xy * _MainTex_ST.xy * _MainTex_ST.zw);																										
 																																																																				
-				return float4(lightFinal, 1.0);
+				return float4(tex.rgb * lightFinal, 1.0);
 			}
 			
 			ENDCG

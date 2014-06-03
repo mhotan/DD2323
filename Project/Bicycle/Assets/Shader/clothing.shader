@@ -16,8 +16,7 @@
 			uniform float4 _MainTex_ST;
 			uniform float4 _SpecColor;			
 			uniform float _Shininess;
-			
-		
+					
 			// Unity defined variable
 			uniform float4 _LightColor0;
 		
@@ -144,7 +143,7 @@
 				// Texture Maps.
 				float4 tex = tex2D(_MainTex, i.tex.xy * _MainTex_ST.xy * _MainTex_ST.zw);																										
 																																																																				
-				return float4(lightFinal, 1.0);
+				return float4(tex.xyz * lightFinal, 1.0);
 			}
 			
 			ENDCG
