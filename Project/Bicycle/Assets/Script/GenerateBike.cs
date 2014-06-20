@@ -47,15 +47,22 @@ public class GenerateBike : MonoBehaviour {
 	// Customizable Material for the Bike Wheel.
 	public Material bikeWheelMaterial1;
 	public Material bikeWheelMaterial2;
-
+	
 	private float nextSpawnR = 1.0f;
 	private float nextSpawnL = 1.0f;
+
+	// Widget values
 	private float densitySlider = 7.0f;
 	private float speedSlider = 20.0f;
+	private float variabilitySlider = 1.0f;
+	private bool useCitibikeData = false;
+
+	// Labels for all the Rect
 	private string flowLabel = "";
 	private string speedLabel = "";
 	private string variabilityLabel = "";
-	private float variabilitySlider = 1.0f;
+	private string controlLabel = "";
+
 
 	private readonly float MAX_SPAWN_TIME = 15.0f;
 	private readonly float MIN_SPAWN_TIME = 1.0f;
@@ -80,28 +87,87 @@ public class GenerateBike : MonoBehaviour {
 	private readonly int SHIRT_MATERIAL_INDEX = 1;
 	private readonly int PANTS_MATERIAL_INDEX = 6;
 
+	private ComboBox startStationComboBox = new ComboBox();
+	private ComboBox endStationComboBox = new ComboBox();
+	private int currentStartIndex;
+	private int currentEndIndex;
+	private GUIStyle listStyle = new GUIStyle();
+
 	// Use this for initialization
 	void Start () {
+
+		// List Style
+		listStyle.normal.textColor = Color.white; 
+
+		// Create the station combo boxes
+		currentStartIndex = 0;
+		currentEndIndex = 0;
+
 		InvokeRepeating("ComputeFlow", 1, 0.5f);
 		nextSpawnR = Random.Range (0.5f, 1.5f);
 		nextSpawnL = Random.Range (0.5f, 1.5f);	
 	}
 
-	void OnGUI () {
-		//Traffic density GUI
-		GUI.Box(new Rect(125, 10, 100, 60), "Traffic Density");
-		densitySlider = GUI.HorizontalSlider (new Rect (130, 35, 90, 30), densitySlider, MAX_SPAWN_TIME, MIN_SPAWN_TIME);
-		GUI.Label(new Rect(130, 45, 95, 30), flowLabel);
+	const float UI_MIN_LEFT = 125;
+	const float UI_BOX_SPACING = 110;
+	const float UI_MIN_TOP = 10;
+	const float UI_BOX_WIDTH = 100;
+	const float UI_BOX_HEIGHT = 60;
+	const float UI_HOR_PADDING = 5;
+	const float UI_TOP_WIDGET_PADDING = 25;
+	const float UI_TOP_LABEL_PADDING = 35;
+	const float UI_WIDGET_HEIGHT = 30;
 
-		//Speed slider Gui
-		GUI.Box(new Rect(235, 10, 100, 60), "Speed");
-		speedSlider = GUI.HorizontalSlider (new Rect (240, 35, 90, 30), speedSlider, MIN_SPEED, MAX_SPEED);
-		GUI.Label(new Rect(235, 45, 90, 30), speedLabel);
+	// Creates a slider box returning the float value.
+	float drawSliderBox(string title, float defaultValue, float minValue, 
+	                      float maxValue, float left, string label) {
+		float width = UI_BOX_WIDTH; 
+		float height = UI_BOX_HEIGHT;
+		float top = UI_MIN_TOP;
+		GUI.Box(new Rect(left, top, width, height), title);
+		GUI.Label(new Rect(left + UI_HOR_PADDING, top + UI_TOP_LABEL_PADDING, width - UI_HOR_PADDING, UI_WIDGET_HEIGHT), label);
+		return GUI.HorizontalSlider (new Rect (left + UI_HOR_PADDING, top + UI_TOP_WIDGET_PADDING, width - UI_HOR_PADDING * 2, UI_WIDGET_HEIGHT)
+		                                      , defaultValue, minValue, maxValue);
+	}
+
+	bool drawControlToggle(bool defaultValue, float left, string label) {
+		GUI.Box (new Rect (left, UI_MIN_TOP, UI_BOX_WIDTH, UI_BOX_HEIGHT), "Citibike Data");
+		return GUI.Toggle (new Rect(left + UI_HOR_PADDING, UI_MIN_TOP + UI_TOP_WIDGET_PADDING, UI_BOX_WIDTH - UI_HOR_PADDING * 2, UI_WIDGET_HEIGHT),
+		                   defaultValue, label);
+	}
+
+	// Draws a drop down menu 
+	int drawStationDropdownMenu(ComboBox comboBox, float left, string title) {
+		float width = UI_BOX_WIDTH; 
+		float height = UI_BOX_HEIGHT;
+		float top = UI_MIN_TOP;
+		GUI.Box(new Rect(left, top, width, height), title);
+		int selectedItem = comboBox.GetSelectedItemIndex ();
+		GUIContent[] stations = StationLoader.getStationGUIContent ();
+		return comboBox.List(new Rect(left + UI_HOR_PADDING, UI_MIN_TOP + UI_TOP_WIDGET_PADDING, UI_BOX_WIDTH - UI_HOR_PADDING * 2, UI_WIDGET_HEIGHT), 
+		                     stations[selectedItem].text, stations, listStyle );
+	}
+
+	void OnGUI () {
+		// Create the toggle box that determines if we can use citibike data or not.
+		useCitibikeData = drawControlToggle (useCitibikeData, UI_MIN_LEFT, controlLabel);
 
 		//Variability slider Gui
-		GUI.Box(new Rect(345, 10, 100, 60), "Variability");
-		variabilitySlider = GUI.HorizontalSlider (new Rect (350, 35, 90, 30), variabilitySlider, MIN_VARIABILITY, MAX_VARIABILITY);
-		GUI.Label(new Rect(345, 45, 90, 30), variabilityLabel);
+		variabilitySlider = drawSliderBox ("Variability", variabilitySlider, MIN_VARIABILITY, MAX_VARIABILITY, UI_MIN_LEFT + UI_BOX_SPACING , variabilityLabel);
+		
+		if (!useCitibikeData) {
+			// Traffic Density Slider
+			densitySlider = drawSliderBox ("Traffic Density", densitySlider, MAX_SPAWN_TIME, MIN_SPAWN_TIME, UI_MIN_LEFT + UI_BOX_SPACING * 2, flowLabel);
+			//Speed slider Gui
+			speedSlider = drawSliderBox ("Speed", speedSlider, MIN_SPEED, MAX_SPEED, UI_MIN_LEFT + UI_BOX_SPACING * 3, speedLabel);
+
+		} else {
+
+			// Draw the drop down boxes.
+			currentStartIndex = drawStationDropdownMenu(startStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 2, "Source Station");
+			currentEndIndex = drawStationDropdownMenu(endStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 3, "Destination Station");
+		}
+
 	}
 
 	/**
@@ -163,7 +229,7 @@ public class GenerateBike : MonoBehaviour {
 	void updateHat(Transform biker) {
 		// Obtain the Hat Material
 		Material mat = biker.GetChild (0).GetChild (HAT_INDEX).renderer.material;
-		Debug.Log ("Hat texture originally " + mat.mainTexture.name);
+//		Debug.Log ("Hat texture originally " + mat.mainTexture.name);
 		switch (getVariability ()) {		
 		case 1:
 			mat.mainTexture = hatTexture1;
@@ -181,14 +247,14 @@ public class GenerateBike : MonoBehaviour {
 			mat.mainTexture = hatTexture5;
 			return;
 		}
-		Debug.Log ("Hat Updated to " + biker.GetChild (0).GetChild (HAT_INDEX).renderer.material.mainTexture.name);
+//		Debug.Log ("Hat Updated to " + biker.GetChild (0).GetChild (HAT_INDEX).renderer.material.mainTexture.name);
 	}
 
 
 	void updateShirt(Transform biker) {
 		// The Shirt Material.
 		Material mat = biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SHIRT_MATERIAL_INDEX];
-		Debug.Log ("Shirt texture originally " + mat.mainTexture.name);
+//		Debug.Log ("Shirt texture originally " + mat.mainTexture.name);
 		switch (getVariability ()) {		
 		case 1:
 			mat.mainTexture = shirtTexture1;
@@ -206,14 +272,14 @@ public class GenerateBike : MonoBehaviour {
 			mat.mainTexture = shirtTexture5;
 			return;
 		}
-		Debug.Log ("Shirt Updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SHIRT_MATERIAL_INDEX].mainTexture.name);
+//		Debug.Log ("Shirt Updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SHIRT_MATERIAL_INDEX].mainTexture.name);
 	}
 
 	// Update the pants material based off the level of variability.
 	void updatePants(Transform biker) {
 		// The Pants Material.
 		Material mat = biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [PANTS_MATERIAL_INDEX];
-		Debug.Log ("Pants texture originally " + mat.mainTexture.name);
+//		Debug.Log ("Pants texture originally " + mat.mainTexture.name);
 		switch (getVariability ()) {		
 		case 1:
 			mat.mainTexture = pantsTexture1;
@@ -231,13 +297,13 @@ public class GenerateBike : MonoBehaviour {
 			mat.mainTexture = pantsTexture5;
 			return;
 		}
-		Debug.Log ("Pants Updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [PANTS_MATERIAL_INDEX].mainTexture.name);
+//		Debug.Log ("Pants Updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [PANTS_MATERIAL_INDEX].mainTexture.name);
 	}
 
 	void updateBikeBody(Transform biker) {
 		Material upperMat = biker.GetChild (0).GetChild (BIKE_UPPER_INDEX).renderer.material;
 		Material lowerMat = biker.GetChild (0).GetChild (BIKE_LOWER_INDEX).renderer.material;
-		Debug.Log ("Bike Upper Body texture was " + upperMat.mainTexture.name + " and lower texture was " + lowerMat.mainTexture.name);
+//		Debug.Log ("Bike Upper Body texture was " + upperMat.mainTexture.name + " and lower texture was " + lowerMat.mainTexture.name);
 		switch (getVariability ()) {		
 		case 1:
 			lowerMat.mainTexture = bikeBodyTexture1;
@@ -260,7 +326,7 @@ public class GenerateBike : MonoBehaviour {
 			upperMat.mainTexture = bikeBodyTexture5;
 			return;
 		}
-		Debug.Log ("Bike Upper Body texture is now " + upperMat.mainTexture.name + " and lower texture is now " + lowerMat.mainTexture.name);
+//		Debug.Log ("Bike Upper Body texture is now " + upperMat.mainTexture.name + " and lower texture is now " + lowerMat.mainTexture.name);
 	}
 
 	// update the material of the bike wheel.
@@ -276,7 +342,7 @@ public class GenerateBike : MonoBehaviour {
 
 	void updateSkin(Transform biker) {
 		Material mat = biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SKIN_MATERIAL_INDEX];
-		Debug.Log ("Skin texture originally " + mat.mainTexture.name);
+//		Debug.Log ("Skin texture originally " + mat.mainTexture.name);
 		switch (getVariability ()) {		
 		case 1:
 			mat.mainTexture = skinTexture1;
@@ -294,7 +360,7 @@ public class GenerateBike : MonoBehaviour {
 			mat.mainTexture = skinTexture5;
 			return;
 		}
-		Debug.Log ("Skin updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SKIN_MATERIAL_INDEX].mainTexture.name);
+//		Debug.Log ("Skin updated to " + biker.GetChild (0).GetChild (RIDER_INDEX).renderer.materials [SKIN_MATERIAL_INDEX].mainTexture.name);
 	}
 
 	float GetRandomSpeed(float speed){
@@ -320,6 +386,17 @@ public class GenerateBike : MonoBehaviour {
 			nextSpawnL  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider+2.0f);
 		}
 
+		// Check if the stations are selected
+		int selectedStartIndex = startStationComboBox.GetSelectedItemIndex ();
+		int selectedEndIndex = endStationComboBox.GetSelectedItemIndex ();
+		Debug.Log("Selected start index: " + selectedStartIndex + " and Current start index: " + currentStartIndex);
+		Debug.Log("Selected end index: " + selectedEndIndex + " and Current end index: " + currentEndIndex);
+		if (selectedStartIndex != currentStartIndex || selectedEndIndex != currentEndIndex) {
+			//  TODO Make a REST Call to get the traffic speed.
+			Debug.Log("Selected stations changed making REST call.");
+		}
+		currentStartIndex = selectedStartIndex;
+		currentEndIndex = selectedEndIndex;
 	}
 
 	//Compute the traffic flow according to the LWR model
@@ -347,5 +424,14 @@ public class GenerateBike : MonoBehaviour {
 
 		// Variability label
 		variabilityLabel = "Variation: " + variabilitySlider.ToString ("0");
+
+		// Update the control trigger
+		if (useCitibikeData) {
+			controlLabel = "On";		
+		} else {
+			controlLabel = "Off";
+		}
+
+
 	}
 }
