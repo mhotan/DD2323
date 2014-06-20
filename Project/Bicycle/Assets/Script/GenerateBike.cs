@@ -100,8 +100,8 @@ public class GenerateBike : MonoBehaviour {
 		listStyle.normal.textColor = Color.white; 
 
 		// Create the station combo boxes
-		currentStartIndex = 0;
-		currentEndIndex = 0;
+		currentStartIndex = -1;
+		currentEndIndex = -1;
 
 		InvokeRepeating("ComputeFlow", 1, 0.5f);
 		nextSpawnR = Random.Range (0.5f, 1.5f);
@@ -148,6 +148,15 @@ public class GenerateBike : MonoBehaviour {
 		                     stations[selectedItem].text, stations, listStyle );
 	}
 
+	// Draws a basic label box.
+	void drawLabelBox(string title, string label, float left) {
+		float width = UI_BOX_WIDTH; 
+		float height = UI_BOX_HEIGHT;
+		float top = UI_MIN_TOP;
+		GUI.Box(new Rect(left, top, width, height), title);
+		GUI.Label(new Rect(left + UI_HOR_PADDING, top + UI_TOP_LABEL_PADDING, width - UI_HOR_PADDING, UI_WIDGET_HEIGHT), label);
+	}
+
 	void OnGUI () {
 		// Create the toggle box that determines if we can use citibike data or not.
 		useCitibikeData = drawControlToggle (useCitibikeData, UI_MIN_LEFT, controlLabel);
@@ -162,10 +171,10 @@ public class GenerateBike : MonoBehaviour {
 			speedSlider = drawSliderBox ("Speed", speedSlider, MIN_SPEED, MAX_SPEED, UI_MIN_LEFT + UI_BOX_SPACING * 3, speedLabel);
 
 		} else {
-
 			// Draw the drop down boxes.
-			currentStartIndex = drawStationDropdownMenu(startStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 2, "Source Station");
-			currentEndIndex = drawStationDropdownMenu(endStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 3, "Destination Station");
+			drawStationDropdownMenu(startStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 2, "Source Station");
+			drawStationDropdownMenu(endStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 3, "Destination Station");
+			drawLabelBox("Traffic Density", flowLabel, UI_MIN_LEFT + UI_BOX_SPACING * 4);
 		}
 
 	}
@@ -386,17 +395,37 @@ public class GenerateBike : MonoBehaviour {
 			nextSpawnL  = Time.time + Random.Range(Mathf.Max(1.0f, densitySlider-2.0f),densitySlider+2.0f);
 		}
 
+		// Update the control trigger
+		if (useCitibikeData) {
+			controlLabel = "On";		
+		} else {
+			controlLabel = "Off";
+		}
+
 		// Check if the stations are selected
 		int selectedStartIndex = startStationComboBox.GetSelectedItemIndex ();
 		int selectedEndIndex = endStationComboBox.GetSelectedItemIndex ();
-		Debug.Log("Selected start index: " + selectedStartIndex + " and Current start index: " + currentStartIndex);
-		Debug.Log("Selected end index: " + selectedEndIndex + " and Current end index: " + currentEndIndex);
+
 		if (selectedStartIndex != currentStartIndex || selectedEndIndex != currentEndIndex) {
 			//  TODO Make a REST Call to get the traffic speed.
-			Debug.Log("Selected stations changed making REST call.");
+			Debug.Log("Stations changed, making REST call to get traffic density");
+			currentStartIndex = selectedStartIndex;
+			currentEndIndex = selectedEndIndex;
+
+			JSONObject[] stations = StationLoader.getStations ();
+			// Check if the indexes are valid
+			if (currentStartIndex < 0 || currentStartIndex >= stations.Length 
+			    || currentEndIndex < 0 || currentEndIndex >= stations.Length) {
+				return;		
+			}
+
+			JSONObject startStation = stations[currentStartIndex];
+			JSONObject endStation = stations[currentEndIndex];
+			int startId = (int) startStation.GetField("stationId").n;
+			int endId = (int) endStation.GetField("stationId").n;
+			Debug.Log("Start station: " + startId + " End station: " + endId);
+			StartCoroutine(findTraffic(startId, endId));
 		}
-		currentStartIndex = selectedStartIndex;
-		currentEndIndex = selectedEndIndex;
 	}
 
 	//Compute the traffic flow according to the LWR model
@@ -425,13 +454,34 @@ public class GenerateBike : MonoBehaviour {
 		// Variability label
 		variabilityLabel = "Variation: " + variabilitySlider.ToString ("0");
 
-		// Update the control trigger
-		if (useCitibikeData) {
-			controlLabel = "On";		
-		} else {
-			controlLabel = "Off";
+
+	}
+
+	// Calculates the traffic density based off making a REST call
+	IEnumerator findTraffic(int startStationId, int endStationId) {
+		Debug.Log ("Finding traffic density between station " + startStationId + " and " + endStationId + "\n");
+
+		WWW w = new WWW ("http://localhost:8080/api/trips/count/" + startStationId.ToString() + "/" + endStationId.ToString());
+		yield return w;
+
+		Debug.Log ("Waiting for traffic density between station " + startStationId + " and " + endStationId+ "\n");
+
+		yield return new WaitForSeconds(1f);
+		
+		Debug.Log ("Recieved Traffic Density\n");
+		
+		ExtractTrafficDensity (w.text);
+	}
+
+	void ExtractTrafficDensity(string json) {
+		Debug.Log ("Traffic Density JSON " + json + "\n");
+		JSONObject jo = new JSONObject (json);
+		if (jo.type != JSONObject.Type.NUMBER) {
+			Debug.Log("Not a number returned.");	
+			return;
 		}
-
-
+		float trafficDensity = jo.n;
+		Debug.Log("New Traffic Density: " + trafficDensity);
+		densitySlider = MAX_SPAWN_TIME - ((MAX_SPAWN_TIME - MIN_SPAWN_TIME) * trafficDensity);
 	}
 }
