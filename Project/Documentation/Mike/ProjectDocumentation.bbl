@@ -1,0 +1,66 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[blendtuts()]{BlendTuts}
+blendtuts.
+\newblock Tileable textures in blender.
+\newblock URL \url{http://www.blendtuts.com/tileable_textures}.
+
+\bibitem[Citibike()]{citibike}
+Citibike.
+\newblock Citibike system data.
+\newblock URL \url{http://www.citibikenyc.com/system-data}.
+
+\bibitem[dotline11()]{Bicycle:Blender}
+dotline11.
+\newblock Bicycle animation.
+\newblock URL \url{http://www.blendswap.com/blends/view/46956}.
+
+\bibitem[Dublin(2011)]{peters2011crowds}
+CATHY ENNIS{,} CHRISTOPHER PETERS{,} {and} CAROL O’SULLIVAN{,}
+  Trinity~College Dublin.
+\newblock Perceptual effects of scene context and viewpoint for virtual
+  pedestrian crowds.
+\newblock \emph{ACM Transactions on Applied Perception (TAP)}, 8\penalty0
+  (10):\penalty0 12, 2011.
+
+\bibitem[Ferzoco()]{Citibike:Visualization}
+Jeff Ferzoco.
+\newblock Citibike visualization.
+\newblock URL
+  \url{http://linepointpath.com/111242/2771111/work/citi-bike-visualization}.
+
+\bibitem[Image()]{Parkchair:Universal}
+Universal Image.
+\newblock Parkchair.
+\newblock URL \url{https://www.assetstore.unity3d.com/#/content/850}.
+
+\bibitem[Jankowski()]{Street:Jankowski}
+Jacek Jankowski.
+\newblock Simple modular street kit.
+\newblock URL \url{https://www.assetstore.unity3d.com/#/content/13811}.
+
+\bibitem[Jeffrey(2008)]{memory}
+Gomez{,} Pablo ; Shutter{,} Jennifer ;~Rouder{,} Jeffrey.
+\newblock Memory for objects in canonical and non canonical viewpoints.
+\newblock \emph{Psychonomic Bulletin {and} Review, 2008, Vol.15(5),
+  pp.940-944}, 15\penalty0 (5):\penalty0 940--944, 2008.
+
+\bibitem[Wikibooks()]{UVMap}
+Wikibooks.
+\newblock Blender 3d: Noob to pro/uv map basics.
+\newblock URL
+  \url{http://en.wikibooks.org/wiki/Blender_3D:_Noob_to_Pro/UV_Map_Basics}.
+
+\bibitem[William(1996)]{spatfrequency}
+Lamb{,} Marvin R. ; Yund{,}~E. William.
+\newblock Spatial frequency and attention: effects of level-, target-, and
+  location-repetition on the processing of global and local forms.
+\newblock \emph{Perception {and} Psychophysics}, 58\penalty0 (3):\penalty0
+  363--373, 1996.
+
+\end{thebibliography}

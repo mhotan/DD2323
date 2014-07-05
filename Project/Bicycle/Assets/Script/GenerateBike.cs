@@ -174,6 +174,7 @@ public class GenerateBike : MonoBehaviour {
 			// Draw the drop down boxes.
 			drawStationDropdownMenu(startStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 2, "Source Station");
 			drawStationDropdownMenu(endStationComboBox, UI_MIN_LEFT + UI_BOX_SPACING * 3, "Destination Station");
+			// Draw a label just for traffic density.
 			drawLabelBox("Traffic Density", flowLabel, UI_MIN_LEFT + UI_BOX_SPACING * 4);
 		}
 

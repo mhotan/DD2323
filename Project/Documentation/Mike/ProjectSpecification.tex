@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+%\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+
+\usepackage{sectsty} % Allows customizing section commands
+%\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{KTH, School of Computer Science and Communication } \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Traffic Flow Simulation for Bike Traffic\\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Michael Hotan PN: 870522-T599 SN: 0579 5268\\ Alexandre St-Onge} 
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+% Introduction
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+\section*{Background}
+
+Creating realistic virtual scene has always been a time consuming task. Not only building placement need to be realist, you also 
+need to populate your city with props like stop signs and traffic light, pedestrians, cars, etc. Creating these scene can be quite 
+complex if you want to have a coherent environment. Adding bicycles traffic in a scene requires you to think about the path the 
+cyclist will take, the density of the traffic and a way to render realist models. 
+	
+\section*{Problem}
+
+Render a simple "biking" scene with realist lightings, props and a well defined path for the bike. Procedurally generate bike traffic 
+into the scene using the navigation framework provided by Unity3D. Use appropriate shading technique to render a realistic cyclist 
+model. What kind of traffic density makes the scene realistic.
+	
+\section*{Implementation}
+
+Unity3D will be used for creating the biking scene. Blender will be used to adapt existing 3D models to our need. ShaderLab and CG 
+will be used to write shaders for the cyclist model. C\# scripting in Unity will be used to generate the bike traffic, but also to allow the 
+user to change the scene parameters (traffic density, day/night, traffic speed) while the application is running.
+
+
+\section*{Evaluation}
+
+For this project we will be evaluating the performance (i.e., the program can be runned at a reasonnable framerate on a regular laptop), 
+we will also explore how our traffic algorithm could be improved by perceptual studies and what aspect are needed to make a realistic bike 
+traffic scene.
+
+
+\end{document}
+

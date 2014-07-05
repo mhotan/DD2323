@@ -1,0 +1,31 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Christopher et~al.(2011)Christopher, Cathy, and McDonnell{,} Rachel
+  {and}~O’Sullivan]{peters2008crowds}
+Peters{,} Christopher, Ennis{,} Cathy, and Carol McDonnell{,} Rachel
+  {and}~O’Sullivan.
+\newblock Crowds in context: Evaluating the perceptual plausibility of
+  pedestrian orientations.
+\newblock \emph{ACM Transactions on Applied Perception (TAP)}, 8\penalty0
+  (10):\penalty0 10, 2011.
+
+\bibitem[David and Sewall{,} Jason {and}~Lin(2013)]{wilkie2013flow}
+Wilkie{,} David and Ming Sewall{,} Jason {and}~Lin.
+\newblock Flow reconstruction for data-driven traffic animation.
+\newblock \emph{ACM Transactions on Graphics (TOG)}, 32\penalty0 (4):\penalty0
+  89, 2013.
+
+\bibitem[J and Beresford(1955)]{lighthill1955kinematic}
+Lighthill{,}~Michael J and Whitham{,}~Gerald Beresford.
+\newblock On kinematic waves. ii. a theory of traffic flow on long crowded
+  roads.
+\newblock \emph{Proceedings of the Royal Society of London. Series A.
+  Mathematical and Physical Sciences}, 229\penalty0 (1178):\penalty0 317--345,
+  1955.
+
+\end{thebibliography}

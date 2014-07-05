@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+%\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+
+\usepackage{sectsty} % Allows customizing section commands
+%\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+
+\usepackage[square]{natbib}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{KTH, School of Computer Science and Communication } \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Traffic Flow Simulation for Bike Traffic (Scientific Connection and Perceptual Study) \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Michael Hotan PN: 870522-T599 SN: 0579 5268\\ Alexandre St-Onge} 
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+% Introduction
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+\section*{Perceptual Studies}
+
+We were limited to perceptual studies with friends and family.  The studies were generally informal due to the focus we put on many technical aspects of the project.  We found that the symmetric motion of each bicyclist was noticeable for viewers.  Since the bicyclist instances were the only thing that wasn?t static they were able to maintain the user attention over any other objects.  Another important contributing factor was that the bicyclist represented noticeable human figures.  That made users more sensitive to artificial reflection and animation.  The bicycle body posture was noticeably artificial.  The pedaling legs were especially noticeable because there was no variation between different instances.  It was also noticed that there was no interaction between bicyclist.   Real world bicyclist are usually in a higher state of alertness and therefore have more natural interaction with their surroundings.  Vehicles, where driver and passengers are enclosed, have less of a human connection.  Therefore vehicle traffic simulations have less focus human existence with scenes.   
+	
+\section*{Related Work and Connected Research}
+
+Our project met a cross road in Graphics research. Traffic visualization and simulation meets with realistic human interaction animation.  These two subject are individually very large and encompass many different fields.  We initially based our project on \citep{wilkie2013flow} focusing more on traffic simulation.  Our algorithms were inspired by \citep{lighthill1955kinematic} when trying to simulate realistic traffic.  However, we found that the human factor in bicyclist contributed greatly to realism.  We then referenced the Eurographic 2008 paper about crowds and pedestrian orientation \citep{peters2008crowds}.  We found that the approach presented in that paper was directly intuned with human group behavior.  We ended our project with a new awareness about the research challenges we came across.
+	
+\section*{Future Perceptual Studies}
+
+In the future we would like to explore how different augmentation of bicyclist animations affect realism.  Currently there is no real interaction between bicyclist other than collision avoidance within our Unity scene.  It would be worth assessing how different levels of interaction between bicyclist can affect the appearance of realism.  It is common to see hand gestures, eye contact, and head gesture acknowledgements within real bicycle traffic.  It be worth developing a hierarchy of variation between these types of interactions.  Than test with perceptual studies what works best in different situations.
+
+We look to continue to focus on the human factor in future perceptual studies.  Bicyclist are human beings, therefore they naturally have some level of individualism.  It would be beneficial to create more cyclist models of different types.  There are different kinds of bicyclist that have different bikes, clothing, and behaviour.  We would like to explore users interpretation of different types of character type variation.   There are many avenues for future perceptual studies but we would like to focus on concepts that emphasize the combination of both traffic simulation and human interaction animation.
+
+\bibliographystyle{plainnat}
+\bibliography{reference}
+
+\end{document}
+

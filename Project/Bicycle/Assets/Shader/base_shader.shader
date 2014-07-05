@@ -147,15 +147,13 @@
 				// Lighting
 				float3 diffuseReflection = atten * _LightColor0.rgb * saturate(dot(normalDirection, lightDirection));
 				float3 specularReflection = diffuseReflection * pow(saturate( dot( reflect( -lightDirection, normalDirection), viewDirection) ), _Shininess);
-				
 				// Rim lighting
 				float rim = 1 - saturate(dot(viewDirection, normalDirection));	
 				float3 rimLighting = atten * _LightColor0.rgb * _RimColor.rgb * saturate(dot(normalDirection, lightDirection)) * pow(rim, _RimPower);
 				float3 lightFinal = rimLighting + diffuseReflection + specularReflection;
 					
 				// Texture Maps.
-				float4 tex = tex2D(_MainTex, i.tex.xy * _MainTex_ST.xy * _MainTex_ST.zw);																										
-																																																																				
+				float4 tex = tex2D(_MainTex, i.tex.xy * _MainTex_ST.xy * _MainTex_ST.zw);																																																																																								
 				return float4(tex.rgb * lightFinal, 1.0);
 			}
 			
